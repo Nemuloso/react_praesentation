@@ -13,7 +13,6 @@ module.exports = function (THREE) {
 			this.manager = (manager !== undefined) ? manager : THREE.DefaultLoadingManager;
 			// override in sub classes
 			this.hdrLoader = new THREE.RGBELoader();
-
 		};
 
 		HDRCubeTextureLoader.prototype.load = function (type, urls, onLoad, onProgress, onError) {
@@ -113,7 +112,8 @@ module.exports = function (THREE) {
 
 			function loadHDRData(i, onLoad, onProgress, onError) {
 
-				var loader = new THREE.FileLoader(this.manager);
+				// var loader = new THREE.FileLoader(this.manager);
+				var loader = new THREE.FileLoader(THREE.DefaultLoadingManager);
 				loader.setResponseType('arraybuffer');
 				loader.load(urls[i], function (buffer) {
 

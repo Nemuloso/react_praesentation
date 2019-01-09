@@ -7,15 +7,15 @@ attribute vec2 uv;
 
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
-uniform mat4 rotationMatrix;
 
 varying vec3 frag_position;
 varying vec3 frag_normal;
 varying vec2 tex_uv;
+varying vec3 view_position;
 
 void main()	{
-    frag_position = (rotationMatrix * vec4(position, 1.0) ).xyz;
-	frag_normal = (rotationMatrix * vec4(normal, 1.0) ).xyz;
+    frag_position = position;
+	frag_normal = normal;
     tex_uv = uv;
 
 	gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);

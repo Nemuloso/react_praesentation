@@ -5,6 +5,7 @@ require("../../extern/loader/HDRCubeTextureLoader")(THREE);
 
 export class Skybox {
     private _skybox: THREE.Mesh;
+    private _toneMappingExposure: number = 1.0;
 
     public loadSkybox(): Promise<THREE.Mesh> {
         return new Promise<THREE.Mesh>((resolve) => {
@@ -19,7 +20,7 @@ export class Skybox {
 
             new (THREE as any).HDRCubeTextureLoader()
                 .load(THREE.UnsignedByteType, hdrUrls, (texture) => {
-                    const uniforms: any = { envMap: { value: texture } };
+                    const uniforms: any = { envMap: { value: texture }, toneMappingExposure: { value: this._toneMappingExposure } };
                     Utils.instance.loadShaderPair(equirectToCubeVert, equirectToCubeFrag).then((shader) => {
                         let geometry: THREE.BoxBufferGeometry = new THREE.BoxBufferGeometry(1024, 1024, 1024);
                         let material: THREE.ShaderMaterial = new THREE.ShaderMaterial({

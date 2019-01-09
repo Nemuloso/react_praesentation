@@ -1,20 +1,91 @@
+@font-face {
+    font-family: "VC";
+    src: url("../assets/fonts/cm-unicode/cmunbsr.otf")  format("opentype");
+}
+
+@font-face {
+    font-family: "Latex";
+    src: url("../assets/fonts/cm-unicode/cmunsl.otf")  format("opentype");
+}
+
+@font-face {
+    font-family: "Latex_bf";
+    src: url("../assets/fonts/cm-unicode/cmunbl.otf")  format("opentype");
+}
+
+body {
+    font-family: "Latex";
+    margin: 0;
+}
+
+hr {
+    display: block;
+    height: 2px;
+    border: 0;
+    border-top: 2px solid black;
+    padding: 0;
+}
+
+.vc_font{
+    font-family: "VC";
+}
+
 .app{
     width: 100%;
     height: 100%;
 }
+.header_container{
+    height: 10%;
+    padding: 1% 5% 0 5%;
+}
+
+.header{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.header_textfield{
+    display: flex;
+    flex-direction: column;
+    justify-content : space-between;
+    width: 100%;
+}
+
+.header_section{
+    font-size: large;
+}
+
+.logo{
+    position: relative;
+    height:80%;
+    float: right;
+    padding: 10%;
+    margin-right: 5%;
+}
 
 .three_container{
     float: right;
-    margin: 5%;
+    margin: 2% 5% 2% 5%;
 }
 
 .three_container_abs_size{
-    width: 30%;
-    height: 50%;
+    width: 60vh;
+    height: 60vh;
 }
 
 .three_container_overlay{
-    background-image: radial-gradient(rgba(0, 255, 255, 0) 30%, white, white);
+    width: 61vh;
+    height: 61vh;
+    background-image: radial-gradient(
+        ellipse closest-side,
+        rgba(255, 255, 255, 0) 70%,
+        rgba(255, 255, 255, 0.1) 75%,
+        rgba(255, 255, 255, 0.3) 80%,
+        rgba(255, 255, 255, 0.5) 85%,
+        rgba(255, 255, 255, 0.75) 90%,
+        white 95%,
+        white);
     pointer-events: none;
     position: absolute;
 }

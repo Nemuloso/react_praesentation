@@ -1,5 +1,6 @@
 import * as React from "react";
 import "../../styles/app.styles.css";
+import { Header } from "./header";
 import { ThreeScene } from "../threescene/threescene";
 
 export class App extends React.Component {
@@ -11,6 +12,7 @@ export class App extends React.Component {
     public render(): any {
         return (
             <div id="app_container" className="app">
+                <Header section={"Einleitung"} onClick={() => console.log("lalala")} logo="../../assets/images/logo_V.png"></Header>
                 <div className="three_container three_container_abs_size">
                     <div className="three_container_overlay three_container_abs_size"></div>
                     <div className="three_scene_container">
