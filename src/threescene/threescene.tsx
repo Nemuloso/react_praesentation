@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as THREE from "three";
-import { Utils } from "./utils";
 import { Skybox } from "./skybox";
 import { CarpaintMaterial } from "./carpaintMaterial";
 require("../../extern/loader/GLTFLoader")(THREE);
@@ -10,6 +9,7 @@ require("../../extern/pmrem/PMREMGenerator")(THREE);
 require("../../extern/pmrem/PMREMCubeUVPacker")(THREE);
 require("../../extern/OrbitControls")(THREE);
 
+export type BackgroundInitializer = { envPathName:string;  irradiancePathName:string; };
 
 export class ThreeScene extends React.Component {
 
@@ -19,11 +19,21 @@ export class ThreeScene extends React.Component {
 
     private scene: THREE.Scene;
     private renderer: THREE.WebGLRenderer;
-    private cubeMapRenderer: THREE.WebGLRenderer;
     private animationID: any;
     private camera: THREE.PerspectiveCamera;
 
     private mesh: THREE.Mesh;
+
+    private _background_env_path: string = "./assets/textures/forestA/env/environment_10-30_Forest_A_";
+    private _background_irradiance_path: string = "./assets/textures/forestA/irradiance/irradiance_10-30_Forest_A_";
+
+    public get background(): BackgroundInitializer {
+        return { envPathName: this._background_env_path, irradiancePathName: this._background_irradiance_path };
+    }
+    public set background(value: BackgroundInitializer) {
+        this._background_env_path = value.envPathName;
+        this._background_irradiance_path = value.irradiancePathName;
+    }
 
     public constructor(props: any) {
         super(props);
@@ -42,8 +52,6 @@ export class ThreeScene extends React.Component {
         this.camera.position.set(1, 1, 1);
 
         this.renderer = new THREE.WebGLRenderer({ antialias: true });
-        // for the mipmap lod
-        this.renderer.context.getExtension("EXT_shader_texture_lod");
 
         this.renderer.context.canvas.addEventListener("webglcontextlost", (event) => {
             event.preventDefault();
@@ -57,16 +65,6 @@ export class ThreeScene extends React.Component {
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.domElement.style.width = "100%";
         this.renderer.domElement.style.height = "100%";
-
-        this.cubeMapRenderer = new THREE.WebGLRenderer({
-            antialias: false,
-            clearColor: 0x000000,
-            clearAlpha: 0,
-            alpha: true,
-            preserveDrawingBuffer: true
-        });
-        this.cubeMapRenderer.gammaInput = true;
-        this.cubeMapRenderer.gammaOutput = true;
 
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
         this.controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
@@ -82,13 +80,14 @@ export class ThreeScene extends React.Component {
 
     private loadsomething(): Promise<any> {
         let sb: Skybox = new Skybox();
-        sb.loadSkybox().then((skybox) => { this.scene.add(skybox); });
+        sb.toneMappingExposure = 1.0;
+        sb.loadSkybox(this.background).then((skybox) => { this.scene.add(skybox); });
         return new Promise((resolve) => {
             this.loadEnvironment().then((tex) => {
                 let urls: string[] = [];
 
                 for (let i: number = 0; i < 6; i++) {
-                    let sideUrl: string = "./assets/textures/irradiance/irradiance_test_equirect_" + i + ".hdr";
+                    let sideUrl: string = this._background_irradiance_path + i + ".hdr";
                     urls.push(sideUrl);
                 }
 
@@ -112,7 +111,7 @@ export class ThreeScene extends React.Component {
         for (let i: number = 0; i < 6; i++) {
             hdrUrls.push([]);
             for (let j: number = 0; j < 6; j++) {
-                let sideUrl: string = "./assets/textures/env/environment_test_equirect_" + i + "_" + j + ".hdr";
+                let sideUrl: string = this._background_env_path + i + "_" + j + ".hdr";
                 hdrUrls[i].push(sideUrl);
             }
         }
@@ -149,15 +148,26 @@ export class ThreeScene extends React.Component {
         this.camera.updateProjectionMatrix();
     }
 
+    counter: number = 0;
+    value: number = 0;
     private renderLoop = () => {
         this.animationID = requestAnimationFrame(this.renderLoop);
         this.controls.update(); // only required if controls.enableDamping = true, or if controls.autoRotate = true
+        this.counter += 0.002;
+        this.value = Math.abs(Math.sin(this.counter));
+        if (this.mesh !== undefined && 0.01 < this.value && 0.99 > this.value) {
+            // (this.mesh.material as any).uniforms.roughnessFactor.value = this.value;
+        }
         this.renderer.render(this.scene, this.camera);
     }
 
     public render(): any {
         return (
-            <div id="scene-container" style={{ height: "100%" }} ref={(mount) => { this.componentRef = mount; }}></div>
+            <div className="three_container three_container_abs_size">
+                <div className="three_container_overlay three_container_abs_size"></div>
+                <div className="three_scene_container"></div>
+                <div id="scene-container" style={{ height: "100%" }} ref={(mount) => { this.componentRef = mount; }}></div>
+            </div>
         );
     }
 }

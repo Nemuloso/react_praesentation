@@ -31,18 +31,17 @@ hr {
 }
 
 .app{
+    position: relative;
     width: 100%;
     height: 100%;
 }
 .header_container{
-    height: 10%;
     padding: 1% 5% 0 5%;
 }
 
 .header{
     display: flex;
     width: 100%;
-    height: 100%;
 }
 
 .header_textfield{
@@ -58,25 +57,43 @@ hr {
 
 .logo{
     position: relative;
-    height:80%;
+    height:10%;
     float: right;
     padding: 10%;
     margin-right: 5%;
 }
 
+.section_container{
+    position: absolute;
+    width: 90%;
+    height: auto;
+    padding: 0 5% 1% 5%;
+}
+
+.section{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.section_textfield{
+    justify-content : space-between;
+    width: 100%;
+}
+
 .three_container{
     float: right;
-    margin: 2% 5% 2% 5%;
+    margin: 0 5% 0 5%;
 }
 
 .three_container_abs_size{
-    width: 60vh;
-    height: 60vh;
+    width: 70vh;
+    height: 70vh;
 }
 
 .three_container_overlay{
-    width: 61vh;
-    height: 61vh;
+    width: 71vh;
+    height: 71vh;
     background-image: radial-gradient(
         ellipse closest-side,
         rgba(255, 255, 255, 0) 70%,
@@ -92,4 +109,23 @@ hr {
 
 .three_scene_container{
     pointer-events: all;
+}
+
+.footer_container{
+    position: absolute;
+    bottom: 0;
+    width: 90%;
+    height: 7%;
+    padding: 0 5% 1% 5%;
+}
+
+.footer{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.footer_textfield{
+    justify-content : space-between;
+    width: 100%;
 }

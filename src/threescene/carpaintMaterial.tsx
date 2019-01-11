@@ -6,12 +6,14 @@ export class CarpaintMaterial extends THREE.RawShaderMaterial {
     public constructor(env: THREE.CubeTexture, irradianceMap: THREE.CubeTexture) {
         super({
             uniforms: {
-                albedo1: { value: new THREE.Color(1.0, 1.0, 1.0) },
-                albedo2: { value: new THREE.Color(1.0, 1.0, 1.0) },
+                albedo1: { value: new THREE.Color(0.8, 0.0, 0.0) },
+                albedo2: { value: new THREE.Color(0.8, 0.0, 0.0) },
 
-                colorRatio: { value: 0.4 },
-                metallicFactor: { value: 1.0 },
-                roughnessFactor: { value: 0.2 },
+                toneMappingExposure: { value: 1.0 },
+
+                colorRatio: { value: 0.5 },
+                metallicFactor: { value: 0.8 },
+                roughnessFactor: { value: 0.19 },
                 aoFactor: { value: 1.0 },
 
                 albedoMap: { value: null },
@@ -23,10 +25,10 @@ export class CarpaintMaterial extends THREE.RawShaderMaterial {
                 envMap: { value: env },
                 envMipmaps: { value: null },
                 diffuseIBLMap: { value: irradianceMap },
-                brdfLUTMap: { value: new THREE.TextureLoader().load("./assets/textures/ibl_brdf_lut.png") },
+                brdfLUTMap: { value: new THREE.TextureLoader().load("./assets/textures/ibl_brdf_lut.jpg") },
 
-                clearCoat: { value: 0.75 },
-                clearCoatRoughness: { value: 0.0 }
+                clearCoat: { value: 1.0 },
+                clearCoatRoughness: { value: 0.01 }
             },
             vertexShader: "void main(){ gl_Position = vec4(0.0, 0.0, 0.0, 1.0);}",
             fragmentShader: "void main(){ gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);}"

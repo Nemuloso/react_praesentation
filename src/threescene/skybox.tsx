@@ -1,20 +1,30 @@
 import * as THREE from "three";
-import { Utils, ShaderPair } from "./utils";
-import { resolve } from "dns";
+import { Utils } from "./utils";
+import { ThreeScene, BackgroundInitializer } from "./threescene";
 require("../../extern/loader/HDRCubeTextureLoader")(THREE);
 
 export class Skybox {
     private _skybox: THREE.Mesh;
     private _toneMappingExposure: number = 1.0;
+    public get toneMappingExposure(): number { return this._toneMappingExposure; }
+    public set toneMappingExposure(value: number) {
+        if (0 <= value && value <= 1) {
+            this._toneMappingExposure = value;
+            if (this._skybox !== undefined) {
+                (this._skybox.material as any).uniforms.toneMappingExposure.value = this._toneMappingExposure;
+                (this._skybox.material as any).needsUpdate = true;
+            }
+        }
+    }
 
-    public loadSkybox(): Promise<THREE.Mesh> {
+    public loadSkybox(bg: BackgroundInitializer): Promise<THREE.Mesh> {
         return new Promise<THREE.Mesh>((resolve) => {
             const equirectToCubeVert: string = "./src/shader/skybox.vert.glsl";
             const equirectToCubeFrag: string = "./src/shader/skybox.frag.glsl";
 
             let hdrUrls: string[] = [];
             for (let i: number = 0; i < 6; i++) {
-                let sideUrl: string = "./assets/textures/env/environment_test_equirect_0_" + i + ".hdr";
+                let sideUrl: string = bg.envPathName + "0_" + i + ".hdr";
                 hdrUrls.push(sideUrl);
             }
 
@@ -32,7 +42,6 @@ export class Skybox {
                         this._skybox = new THREE.Mesh(geometry, material);
                         resolve(this._skybox);
                     });
-                    console.log("Success... so I hope!");
                 });
         }
         );

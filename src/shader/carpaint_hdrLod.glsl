@@ -1,4 +1,3 @@
-#extension GL_EXT_shader_texture_lod : enable
 #extension GL_OES_standard_derivatives : enable
 
 #define MATERIAL_BASE_IOR 0.04
@@ -190,7 +189,7 @@ void applyClearCoat( const in float NdotV, const in vec3 reflectance, inout vec3
 
 	vec2 clearCoatBRDF  = texture2D(brdfLUTMap, vec2(NdotV, clearCoatRoughness)).rg;
 	vec4 clearCoatReflectionColor = hdrTextureCubeLod(reflectance, clearCoatRoughness * MAX_MIPMAP_LEVEL);
-	vec4 clearCoatColor = vec4 ( GammaCorrection(clearCoatReflectionColor.rgb) * (F * clearCoatBRDF.x + clearCoatBRDF.y), 1.0);
+	vec4 clearCoatColor = vec4 ( clearCoatReflectionColor.rgb * (F * clearCoatBRDF.x + clearCoatBRDF.y), 1.0);
 
 	color += clearCoat * clearCoatColor.rgb;
 }
@@ -211,7 +210,7 @@ void main(){
 	vec3 viewDir 	= normalize(CmP);
 	float NdotV		= max(dot(normal, viewDir), 0.0);
 	//vec3 albedo		= pow( abs( texture2D(albedoMap, tex_uv).rgb ), vec3(2.2) );
-	vec3 albedo		= mix(albedo1, albedo2, pow( NdotV, 1.0/colorRatio ) );
+	vec3 albedo		= mix(albedo1, albedo2,  NdotV*colorRatio*((1.0-NdotV)+(1.0-colorRatio))/2.0 );
 
 	vec3 F0 = vec3(MATERIAL_BASE_IOR); 
 	F0      = mix(F0, albedo, metallic);
@@ -226,26 +225,25 @@ void main(){
 	vec3 reflectance = reflect(-viewDir, normal);
 	vec2 envBRDF  = texture2D(brdfLUTMap, vec2(NdotV, roughness)).rg;
 	
-	// vec4 prefilteredColor = HDRColor( textureCubeLodEXT(envMap, reflectance, roughness * MAX_MIPMAP_LEVEL) );
 	vec4 prefilteredColor = hdrTextureCubeLod(reflectance, roughness * MAX_MIPMAP_LEVEL);
-	vec4 specular = vec4( GammaCorrection(prefilteredColor.rgb) * (F * envBRDF.x + envBRDF.y), 1.0 );
+	vec4 specular = vec4( prefilteredColor.rgb * (F * envBRDF.x + envBRDF.y), 1.0 );
 	// decodeFakeHDR(specular);
 	// -----
 
 	// ----- Diffuse IBL
 	vec4 irradiance = HDRColor( textureCube(diffuseIBLMap, normal) );
-	vec4 diffuse    = vec4( GammaCorrection(irradiance.rgb) * albedo, 1.0);
+	vec4 diffuse    = vec4( irradiance.rgb * albedo, 1.0);
 	// decodeFakeHDR(diffuse);
 	// -----
 	
 	vec3 color = (kD * diffuse.rgb + specular.rgb);
 
 	// ----- Additional effects
-	// applyClearCoat(NdotV, reflectance, color);
+	applyClearCoat(NdotV, reflectance, color);
 	// applyFlakes(NdotV, viewDir, reflectance, specular.rgb, dist, color);
 	// -----
 	
 	color     *= ao;
 
-	gl_FragColor = vec4(color,1.0);
+	gl_FragColor = vec4( GammaCorrection(color), 1.0 );
 }
