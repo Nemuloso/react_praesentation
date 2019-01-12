@@ -27,6 +27,40 @@ hr {
     padding: 0;
 }
 
+.costsDiv{
+    padding: 4vh 2vw 5vh 2vw;
+}
+
+table {
+    padding: 1vh;
+    border-collapse: collapse;
+    width: 40vw;
+}
+
+th {
+    background: rgba(67, 168, 218, 0.75);
+}
+
+.flexlinetop{
+    border-top: 1.5px solid black;
+    padding: 1px 0 1px 0;
+    width: auto;
+    height: 0;
+}
+
+.flexlinebottom{
+    border-bottom: 1.5px solid black;
+    padding: 1px 0 1px 0;
+    width: auto;
+    height: 0;
+}
+
+tr:nth-child(even) {background: rgba(67, 168, 218, 0.4)}
+
+tfoot {
+    background: rgba(67, 168, 218, 0.75);
+}
+
 .vc_font{
     font-family: "VC";
 }
@@ -130,6 +164,7 @@ hr {
 .stage {
     background: #fff;
     border: 1px solid gray;
+    border-radius: 8px;
     float: left;
     height: 66%;
     margin-right: -1px;
@@ -142,7 +177,7 @@ hr {
 }
 
 .stage_active {
-    background-color: rgb(66, 123, 193, 0.5);
+    background-color:rgba(67, 168, 218, 0.4);
 }
 
 .stage_span{
@@ -164,8 +199,8 @@ hr {
     margin: 4vh 0 0 2vw
 }
 
-.section_xxlarge{
-    font-size: xx-large;
+.section_xlarge{
+    font-size: 195%;
     font-weight: bolder;
 }
 
@@ -176,6 +211,11 @@ hr {
 
 .section_text{
     text-align: center;
+    white-space: pre-wrap;
+}
+
+.section_text_left {
+    text-align: left;
     white-space: pre-wrap;
 }
 

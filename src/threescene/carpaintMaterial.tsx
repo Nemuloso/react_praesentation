@@ -12,8 +12,8 @@ export class CarpaintMaterial extends THREE.RawShaderMaterial {
                 toneMappingExposure: { value: 1.0 },
 
                 colorRatio: { value: 0.5 },
-                metallicFactor: { value: 0.8 },
-                roughnessFactor: { value: 0.19 },
+                metallicFactor: { value: 0.95 },
+                roughnessFactor: { value: 0.59 },
                 aoFactor: { value: 1.0 },
 
                 albedoMap: { value: null },

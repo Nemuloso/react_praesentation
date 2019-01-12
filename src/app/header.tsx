@@ -1,7 +1,13 @@
 import * as React from "react";
 import "../../styles/app.styles.css";
 
-export function Header(props: any): any {
+export interface IHeaderProps {
+    onClick: () => void;
+    section: string;
+    logo: string;
+}
+
+export function Header(props: IHeaderProps): any {
     return (
         <div className="header_container">
             <div className="header" onClick={props.onClick}>

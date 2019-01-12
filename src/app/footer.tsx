@@ -1,9 +1,9 @@
 import * as React from "react";
 import "../../styles/app.styles.css";
 
-interface IFooterProps {
+export interface IFooterProps {
     onClick: () => void;
-    section: number;
+    stage: number;
 }
 
 interface IStageProps {
@@ -23,7 +23,7 @@ class Stage extends React.Component<IStageProps, any> {
 
     public render(): any {
         let classString: string = "stage";
-        if (this.state.active) {
+        if (this.props.active) {
             classString += " stage_active";
         }
         return (
@@ -47,16 +47,16 @@ export class Footer extends React.Component<IFooterProps, any> {
     public constructor(props: IFooterProps) {
         super(props);
         this.state = {
-            stage: 0,
+            stage: props.stage,
             onClick: props.onClick,
-            section: props.section
         };
     }
 
     private renderStage(i: number): any {
+        const active: boolean = (i === (this.props.stage - 1));
         return (
             <Stage key={i} name={this.stages[i].name}
-                active={this.stages[i].active}
+                active={active}
             />);
     }
 

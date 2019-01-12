@@ -1,10 +1,11 @@
 import * as THREE from "three";
 import { Utils } from "./utils";
-import { ThreeScene, BackgroundInitializer } from "./threescene";
+import { BackgroundInitializer } from "./threescene";
 require("../../extern/loader/HDRCubeTextureLoader")(THREE);
 
 export class Skybox {
     private _skybox: THREE.Mesh;
+    public get skybox(): THREE.Mesh { return this._skybox; }
     private _toneMappingExposure: number = 1.0;
     public get toneMappingExposure(): number { return this._toneMappingExposure; }
     public set toneMappingExposure(value: number) {
@@ -15,6 +16,11 @@ export class Skybox {
                 (this._skybox.material as any).needsUpdate = true;
             }
         }
+    }
+
+    public set texture(texture: THREE.CubeTexture) {
+        (this._skybox.material as any).uniforms.envMap = texture;
+        (this._skybox.material as any).needsUpdate = true;
     }
 
     public loadSkybox(bg: BackgroundInitializer): Promise<THREE.Mesh> {
@@ -39,6 +45,7 @@ export class Skybox {
                             fragmentShader: shader.frag
                         });
                         material.side = THREE.BackSide;
+                        console.log(material);
                         this._skybox = new THREE.Mesh(geometry, material);
                         resolve(this._skybox);
                     });

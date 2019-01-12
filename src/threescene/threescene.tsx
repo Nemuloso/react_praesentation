@@ -9,7 +9,7 @@ require("../../extern/pmrem/PMREMGenerator")(THREE);
 require("../../extern/pmrem/PMREMCubeUVPacker")(THREE);
 require("../../extern/OrbitControls")(THREE);
 
-export type BackgroundInitializer = { envPathName:string;  irradiancePathName:string; };
+export type BackgroundInitializer = { envPathName: string; irradiancePathName: string; };
 
 export class ThreeScene extends React.Component {
 
@@ -22,18 +22,37 @@ export class ThreeScene extends React.Component {
     private animationID: any;
     private camera: THREE.PerspectiveCamera;
 
+    private skybox: Skybox;
     private mesh: THREE.Mesh;
 
-    private _background_env_path: string = "./assets/textures/forestA/env/environment_10-30_Forest_A_";
-    private _background_irradiance_path: string = "./assets/textures/forestA/irradiance/irradiance_10-30_Forest_A_";
+    private backgrounds: BackgroundInitializer[] = [
+        {
+            envPathName: "./assets/textures/sunA/env/environment_04-18_Sun_A_",
+            irradiancePathName: "./assets/textures/sunA/irradiance/irradiance_04-18_Sun_A_"
+        },
+        {
+            envPathName: "./assets/textures/swissA/env/environment_08-21_Swiss_A_",
+            irradiancePathName: "./assets/textures/swissA/irradiance/irradiance_08-21_Swiss_A_"
+        },
+        {
+            envPathName: "./assets/textures/forestA/env/environment_10-30_Forest_A_",
+            irradiancePathName: "./assets/textures/forestA/irradiance/irradiance_10-30_Forest_A_"
+        },
+        {
+            envPathName: "./assets/textures/nightscene/env/environment_test_equirect_",
+            irradiancePathName: "./assets/textures/nightscene/irradiance/irradiance_test_equirect_"
+        },
+        {
+            envPathName: "./assets/textures/park/env/environment_05-20_Park_F_",
+            irradiancePathName: "./assets/textures/park/irradiance/irradiance_05-20_Park_F_"
+        },
+        {
+            envPathName: "./assets/textures/swissD/env/environment_08-21_Swiss_D_",
+            irradiancePathName: "./assets/textures/swissD/irradiance/irradiance_08-21_Swiss_D_"
+        }
+    ];
 
-    public get background(): BackgroundInitializer {
-        return { envPathName: this._background_env_path, irradiancePathName: this._background_irradiance_path };
-    }
-    public set background(value: BackgroundInitializer) {
-        this._background_env_path = value.envPathName;
-        this._background_irradiance_path = value.irradiancePathName;
-    }
+    private materialList: CarpaintMaterial[] = [];
 
     public constructor(props: any) {
         super(props);
@@ -79,15 +98,16 @@ export class ThreeScene extends React.Component {
 
 
     private loadsomething(): Promise<any> {
-        let sb: Skybox = new Skybox();
-        sb.toneMappingExposure = 1.0;
-        sb.loadSkybox(this.background).then((skybox) => { this.scene.add(skybox); });
+        this.skybox = new Skybox();
+        this.skybox.toneMappingExposure = 1.0;
+        this.skybox.loadSkybox(this.backgrounds[0]).then((skybox) => { this.scene.add(skybox); });
+
         return new Promise((resolve) => {
-            this.loadEnvironment().then((tex) => {
+            this.loadEnvironment(this.backgrounds[0]).then((tex) => {
                 let urls: string[] = [];
 
                 for (let i: number = 0; i < 6; i++) {
-                    let sideUrl: string = this._background_irradiance_path + i + ".hdr";
+                    let sideUrl: string = this.backgrounds[0].irradiancePathName + i + ".hdr";
                     urls.push(sideUrl);
                 }
 
@@ -95,9 +115,12 @@ export class ThreeScene extends React.Component {
                     .load(THREE.UnsignedByteType, urls, (irMap) => {
                         let geometry: any = new THREE.SphereBufferGeometry(0.5, 64, 64);
                         let material: any = new CarpaintMaterial(tex, irMap);
+                        this.materialList.push(material);
                         let mesh: any = new THREE.Mesh(geometry, material);
                         this.mesh = mesh;
+                        this.alternateEnvironments(0);
                         this.scene.add(mesh);
+                        this.loadBackgroundsInBackground();
                         resolve();
                         console.log("Irradiancemap loaded!");
                     });
@@ -105,13 +128,40 @@ export class ThreeScene extends React.Component {
         });
     }
 
-    private loadEnvironment(): Promise<THREE.CubeTexture> {
+    private loadBackgroundsInBackground(): void {
+        let promises: Promise<any>[] = [];
+        for (let i: number = 1; i < this.backgrounds.length; i++) {
+            let promise: Promise<any> = new Promise<any>((resolve) => {
+                let background: BackgroundInitializer = this.backgrounds[i];
+                this.loadEnvironment(background).then((tex) => {
+                    let urls: string[] = [];
+
+                    for (let i: number = 0; i < 6; i++) {
+                        let sideUrl: string = background.irradiancePathName + i + ".hdr";
+                        urls.push(sideUrl);
+                    }
+
+                    new (THREE as any).HDRCubeTextureLoader()
+                        .load(THREE.UnsignedByteType, urls, (irMap) => {
+                            let material: any = new CarpaintMaterial(tex, irMap);
+                            this.materialList.push(material);
+                            resolve();
+                            console.log("Irradiancemap loaded!");
+                        });
+                });
+            });
+            promises.push(promise);
+        }
+        Promise.all(promises);
+    }
+
+    private loadEnvironment(background: BackgroundInitializer): Promise<THREE.CubeTexture> {
         let hdrUrls: string[][] = [];
 
         for (let i: number = 0; i < 6; i++) {
             hdrUrls.push([]);
             for (let j: number = 0; j < 6; j++) {
-                let sideUrl: string = this._background_env_path + i + "_" + j + ".hdr";
+                let sideUrl: string = background.envPathName + i + "_" + j + ".hdr";
                 hdrUrls[i].push(sideUrl);
             }
         }
@@ -149,16 +199,44 @@ export class ThreeScene extends React.Component {
     }
 
     counter: number = 0;
-    value: number = 0;
+    sinValue: number = 0;
+    cosValue: number = 0;
+    sinCosPi: number = 0;
+    cosCosPi: number = 0;
+    radius: number = 1.75;
+
+    private animateCam(): void {
+        this.cosValue = Math.cos(this.counter);
+        this.sinCosPi = Math.sin(this.cosValue * 2 * Math.PI);
+        this.cosCosPi = Math.cos(this.cosValue * 2 * Math.PI);
+
+        this.camera.position.set(
+            this.radius * this.sinCosPi * this.sinCosPi,
+            this.radius * this.sinCosPi * this.cosCosPi,
+            this.radius * this.cosCosPi);
+    }
+
+    private alternateEnvironments(i: number): void {
+        if (i === this.materialList.length) {
+            i = 0;
+        }
+        this.mesh.material = this.materialList[i];
+        this.mesh.material.needsUpdate = true;
+        this.skybox.texture = (this.mesh.material as any).uniforms.envMap;
+        setTimeout(() => { this.alternateEnvironments(i+1); }, 30000);
+    }
+
     private renderLoop = () => {
         this.animationID = requestAnimationFrame(this.renderLoop);
-        this.controls.update(); // only required if controls.enableDamping = true, or if controls.autoRotate = true
-        this.counter += 0.002;
-        this.value = Math.abs(Math.sin(this.counter));
-        if (this.mesh !== undefined && 0.01 < this.value && 0.99 > this.value) {
+
+        this.counter += 0.00025;
+        this.sinValue = Math.abs(Math.sin(this.counter));
+        this.animateCam();
+        if (this.mesh !== undefined && 0.01 < this.sinValue && 0.99 > this.sinValue) {
             // (this.mesh.material as any).uniforms.roughnessFactor.value = this.value;
         }
         this.renderer.render(this.scene, this.camera);
+        this.controls.update(); // only required if controls.enableDamping = true, or if controls.autoRotate = true
     }
 
     public render(): any {
