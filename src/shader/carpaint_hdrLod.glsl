@@ -61,8 +61,14 @@ vec3 GammaCorrection(in vec3 color){
 	return pow(color, vec3(1.0/GAMMA_FACTOR));
 }
 
+// TODO: !!!!
 /**
-* The colorspace conversion has to be done before the colors are blended
+* THIS SHOULD BE JUST A WORKAROUND!!!
+*
+* The colorspace conversion has to be done before the colors are blended.
+*
+* Nonetheless the conversion should idially occour on load and not for every texel in every frame!
+* When fixed it is possible to use the build in lod texture lookup functions.
 **/
 vec4 hdrTextureCubeLod(in vec3 directionVector, in float lod){
 	int lowerIdx = int(floor(lod));

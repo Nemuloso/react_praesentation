@@ -4,8 +4,16 @@ import "../../styles/app.styles.css";
 export interface IHeaderProps {
     onClick: () => void;
     section: string;
-    logo: string;
 }
+
+// i know  its a hack, but somehow the browser refused to apply some styles
+const logo: any = {
+    width:"5%",
+    backgroundImage: `url("${"../../assets/images/logo_V.png"}")`,
+    backgroundSize: "100%",
+    backgroundPosition: "center center",
+    backgroundRepeat: "no-repeat"
+  };
 
 export function Header(props: IHeaderProps): any {
     return (
@@ -24,9 +32,7 @@ export function Header(props: IHeaderProps): any {
                         {props.section}
                     </div>
                 </div>
-                <div>
-                    <img src={props.logo} className="logo"></img>
-                </div>
+                <div style={logo}></div>
             </div>
             <hr />
         </div>

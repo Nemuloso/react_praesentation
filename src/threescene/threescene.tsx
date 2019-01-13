@@ -31,6 +31,10 @@ export class ThreeScene extends React.Component {
             irradiancePathName: "./assets/textures/sunA/irradiance/irradiance_04-18_Sun_A_"
         },
         {
+            envPathName: "./assets/textures/nightC/env/environment_04-21_Night_C_",
+            irradiancePathName: "./assets/textures/nightC/irradiance/irradiance_04-21_Night_C_"
+        },
+        {
             envPathName: "./assets/textures/swissA/env/environment_08-21_Swiss_A_",
             irradiancePathName: "./assets/textures/swissA/irradiance/irradiance_08-21_Swiss_A_"
         },

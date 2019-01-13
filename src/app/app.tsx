@@ -22,7 +22,6 @@ export class App extends React.Component<IAppProps, any> {
             headerProps: {
                 onClick: () => this.increaseStage(),
                 section: "Einleitung - Vorstellung",
-                logo: "../../assets/images/logo_V.png"
             },
             sectionTextDiv:
                 <div>
@@ -48,13 +47,13 @@ export class App extends React.Component<IAppProps, any> {
             headerProps: {
                 onClick: () => this.increaseStage(),
                 section: "Einleitung - Titel",
-                logo: "../../assets/images/logo_V.png"
             },
             sectionTextDiv:
                 <div>
                     <div className="section_std section_huge">
                         <div className="section_text">
                             {"\n"
+                                + "\n"
                                 + "Autolack Shader\n"
                                 + "\n"
                                 + "Entwicklung eines Shader Programmes zur\n"
@@ -74,7 +73,6 @@ export class App extends React.Component<IAppProps, any> {
             headerProps: {
                 onClick: () => this.increaseStage(),
                 section: "Einleitung - Vorwort",
-                logo: "../../assets/images/logo_V.png"
             },
             sectionTextDiv:
                 <div>
@@ -87,6 +85,7 @@ export class App extends React.Component<IAppProps, any> {
                                 + "\n"
                                 + "Programm zur Darstellung von Oberflächen - Shader\n"
                                 + "\n"
+                                + "Einleitung - Vorstellung\n"
                                 + "Ein neues Material - Planung\n"
                                 + "Vorbereitung - Begriffserklärungen\n"
                                 + "Implementierung - Details und Beispiele\n"
@@ -102,8 +101,35 @@ export class App extends React.Component<IAppProps, any> {
         {
             headerProps: {
                 onClick: () => this.increaseStage(),
+                section: "Planung und Analyse - Vorgehensweise",
+            },
+            sectionTextDiv: (
+                <div>
+                    <div className="section_std section_huge">
+                        <div className="section_text_left">
+                            {"Vorgehensweise:\n"
+                                + "  -agile Entwicklung\n"
+                                + "\n"
+                                + "Begründung:\n"
+                                + "  -kleine Projekte\n"
+                                + "  -keine klassische Validierung\n"
+                                + "  -individuelle Anforderungen durch die Szene\n"
+                                + "  -visuelle Darstellung\n"
+                                + "  -subjektives Schönheitsempfinden\n"
+                            }
+                        </div>
+                    </div>
+                </div>
+            ),
+            footProps: {
+                onClick: () => console.log(this.state.stage),
+                stage: 2
+            }
+        },
+        {
+            headerProps: {
+                onClick: () => this.increaseStage(),
                 section: "Planung und Analyse - Projektabgrenzung, Abweichungen vom Projektantrag und Projektphasen",
-                logo: "../../assets/images/logo_V.png"
             },
             sectionTextDiv: (
                 <div>
@@ -118,7 +144,7 @@ export class App extends React.Component<IAppProps, any> {
                                 + "Projektphasen:\n"
                                 + "  -Anpassungen am Basis Shader\n"
                                 + "  -Clear Coat\n"
-                                + "  -Flakes (2 Std)\n"
+                                + "  -Flakes\n"
                                 + "  -IBL: Diskussion, Implementierung und Testen eines\n"
                                 + "   experimentellen Ansatzes\n"
                                 + "  -Zweifarbigkeit\n"
@@ -136,7 +162,6 @@ export class App extends React.Component<IAppProps, any> {
             headerProps: {
                 onClick: () => this.increaseStage(),
                 section: "Planung und Analyse - Ressourcen, Kosten und Nutzen",
-                logo: "../../assets/images/logo_V.png"
             },
             sectionTextDiv: (
                 <div>
@@ -151,10 +176,22 @@ export class App extends React.Component<IAppProps, any> {
                             <div className="section_text_left">
                                 {"Projektkosten:"}
                             </div>
-                            <div className="flexlinetop"></div>
-                            <div className="flexlinetop"></div>
                             <table>
                                 <thead>
+                                    <tr style={{ background: "white" }}>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                    </tr>
+                                    <tr style={{ background: "white" }}>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                    </tr>
                                     <tr>
                                         <th>Vorgang</th>
                                         <th>Zeit</th>
@@ -162,11 +199,21 @@ export class App extends React.Component<IAppProps, any> {
                                         <th>Kosten pro Stunde</th>
                                         <th>Summe</th>
                                     </tr>
+                                    <tr style={{ background: "white" }}>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                    </tr>
+                                    <tr style={{ background: "white" }}>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                    </tr>
                                 </thead>
-                            </table>
-                            <div className="flexlinebottom"></div>
-                            <div className="flexlinebottom"></div>
-                            <table>
                                 <tbody>
                                     <tr>
                                         <td>Entwicklung</td>
@@ -197,22 +244,44 @@ export class App extends React.Component<IAppProps, any> {
                                         <td>2256,00{"\u20AC"}</td>
                                     </tr>
                                 </tbody>
-                            </table>
-                            <div className="flexlinetop"></div>
-                            <div className="flexlinetop"></div>
-                            <table>
                                 <tfoot>
+                                    <tr style={{ background: "white" }}>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                    </tr>
+                                    <tr style={{ background: "white" }}>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinetop"></div></td>
+                                    </tr>
                                     <tr>
-                                        <th>Vorgang</th>
-                                        <th>Zeit</th>
-                                        <th>Personal</th>
-                                        <th>Kosten pro Stunde</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
                                         <th>3791,00{"\u20AC"}</th>
+                                    </tr>
+                                    <tr style={{ background: "white" }}>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                    </tr>
+                                    <tr style={{ background: "white" }}>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
+                                        <td style={{ padding: "0" }}><div className="flexlinebottom"></div></td>
                                     </tr>
                                 </tfoot>
                             </table>
-                            <div className="flexlinebottom"></div>
-                            <div className="flexlinebottom"></div>
                         </div>
                         <div className="section_text_left">
                             {"Nutzen:\n"
@@ -227,6 +296,196 @@ export class App extends React.Component<IAppProps, any> {
             footProps: {
                 onClick: () => console.log(this.state.stage),
                 stage: 2
+            }
+        },
+        {
+            headerProps: {
+                onClick: () => this.increaseStage(),
+                section: "Einführung - Grundlagen: Begriffe",
+            },
+            sectionTextDiv: (
+                <div>
+                    <div className="section_std section_xlarge">
+                        <div className="section_text_left">
+                            {"Shader:\n"
+                                + "  -Ausführung auf der GPU\n"
+                                + "  -mindestens zwei Programme\n"
+                                + "  -Vertex-Shader für die Geometrie\n"
+                                + "  -Fragment-Shader für \"Farben\"\n"
+                                + "\n"
+                                + "GLSL (OpenGL Shading Language):\n"
+                                + "  -Sprach-Spezifikation der Khronos Group\n"
+                                + "  -C ähnlich\n"
+                                + "  -hoch optimiert\n"
+                                + "  -kompiliert zur Laufzeit\n"
+                                + "  -Attribute, Uniform, Varying\n"
+                                + "  -int, float, vecX, matX, sampler (Texturen)"
+                            }
+                        </div>
+                    </div>
+                </div>
+            ),
+            footProps: {
+                onClick: () => console.log(this.state.stage),
+                stage: 3
+            }
+        },
+        {
+            headerProps: {
+                onClick: () => this.increaseStage(),
+                section: "Einführung - Genutzte Technologien",
+            },
+            sectionTextDiv: (
+                <div>
+                    <div className="section_std section_xlarge">
+                        <div className="section_text_left">
+                            {"three.js:\n"
+                                + "  -umfangreiche 3D-Bibliothek\n"
+                                + "  -intuitiver Zugang\n"
+                                + "  -Klassen und Funktionen\n"
+                                + "  -open source\n"
+                                + "  -nutzt WebGL\n"
+                                + "\n"
+                                + "WebGL (Web Graphics Library):\n"
+                                + "  -Schnittstellen-Spezifikation der Khronos Group\n"
+                                + "  -basiert auf OpenGL ES 2.0(OpenGL Embeded Systems)\n"
+                                + "  -low level API (Application Programming Interface)\n"
+                                + "  -3D Darstellung im Web Browser\n"
+                            }
+                        </div>
+                    </div>
+                </div>
+            ),
+            footProps: {
+                onClick: () => console.log(this.state.stage),
+                stage: 3
+            }
+        },
+        {
+            headerProps: {
+                onClick: () => this.increaseStage(),
+                section: "Implementierung - PBR",
+            },
+            sectionTextDiv: (
+                <div>
+                    <div className="section_std section_huge">
+                        <div className="section_text_left">
+                            {"PBR (Physically Based Rendering):\n"
+                                + "  -Beleuchtungsmodell\n"
+                                + "  -Mikrostruktur der Oberfläche\n"
+                                + "  -Energieerhaltung\n"
+                                + "  -physically based BRDF (bidirectional\n"
+                                + "   reflective distribution function)\n"
+                                + "\n"
+                                + "\n"
+                            }
+                        </div>
+                        <div style={{ fontSize: "120%" }} className="section_text_left">
+                            {"      Das Metallic-Roughness-Modell\n"}
+                        </div>
+                    </div>
+                </div>
+            ),
+            footProps: {
+                onClick: () => console.log(this.state.stage),
+                stage: 4
+            }
+        },
+        {
+            headerProps: {
+                onClick: () => this.increaseStage(),
+                section: "Implementierung - Der Basis-Shader",
+            },
+            sectionTextDiv: (
+                <div>
+                    <div className="section_std section_huge">
+                        <div className="section_text_left">
+                            {"Mikrostruktur:\n"}
+                        </div>
+                        <div style={{ backgroundImage: `url("${"../../assets/images/microfacets.png"}")` }}
+                            className="microstructure background_image"></div>
+                        <div className="section_text_left">
+                            {"Energieerhalt:\n"}
+                        </div>
+                        <div style={{ fontSize: "90%", padding: "0.5vh 0 2vh 0" }} className="section_text_left">
+                            {"Das ausgehende Licht darf nicht heller sein als das\n"
+                                + "eingehende.\n"
+                                + "Dies ist durch die Mikrostrukur bereits gegeben.\n"
+                            }
+                        </div>
+                        <div className="section_text_left">
+                            {"      Spiegelung (reflected specular light)\n"
+                                + "      Absorbtion  (refracted diffuse light)\n"
+                            }
+                        </div>
+                    </div>
+                </div>
+            ),
+            footProps: {
+                onClick: () => console.log(this.state.stage),
+                stage: 4
+            }
+        },
+        {
+            headerProps: {
+                onClick: () => this.increaseStage(),
+                section: "Implementierung - BRDF",
+            },
+            sectionTextDiv: (
+                <div>
+                    <div className="section_std section_huge">
+                        <div className="section_text_left">
+                            {"Die Cook-Torrance-BRDF"}
+                        </div>
+                        <div className="ct_flex">
+                            <div className="background_image ct_size" style={{
+                                width: "30vw",
+                                backgroundImage: `url("${"./assets/images/cook_torrance_01.PNG"}")`
+                            }}>
+                            </div>
+                            <div className="background_image ct_size" style={{
+                                width: "25vw",
+                                backgroundImage: `url("${"./assets/images/cook_torrance_02.PNG"}")`
+                            }}>
+                            </div>
+                        </div>
+                        <div style={{ fontSize: "80%", marginLeft: "2vw" }} className="section_text_left">
+                            {"Normal distribution function:\n"
+                                + "    Abweichung des Normalenvektors durch\n"
+                                + "    Roughness der Mikrostruktur\n"
+                                + "  Fresnel Gleichung:\n"
+                                + "      Anteil des reflektierten Lichtes aus\n"
+                                + "      unterschiedlichen Winkeln\n"
+                                + "    Geometrie Funktion:\n"
+                                + "        Selbstbeschattungs-Eigenschaft der\n"
+                                + "        Oberfläche"
+                            }
+                        </div>
+                    </div>
+                </div>
+            ),
+            footProps: {
+                onClick: () => console.log(this.state.stage),
+                stage: 4
+            }
+        },
+        {
+            headerProps: {
+                onClick: () => this.increaseStage(),
+                section: "Implementierung - IBL",
+            },
+            sectionTextDiv: (
+                <div>
+                    <div className="section_std section_xlarge">
+                        <div className="section_text_left">
+                            {"Image Based Lighting"}
+                        </div>
+                    </div>
+                </div>
+            ),
+            footProps: {
+                onClick: () => console.log(this.state.stage),
+                stage: 4
             }
         }
     ];
@@ -255,8 +514,7 @@ export class App extends React.Component<IAppProps, any> {
         return (
             <div id="app_container" className="app">
                 <Header section={this.sections[this.state.stage].headerProps.section}
-                    onClick={this.sections[this.state.stage].headerProps.onClick}
-                    logo={this.sections[this.state.stage].headerProps.logo}>
+                    onClick={this.sections[this.state.stage].headerProps.onClick}>
                 </Header>
                 <Section textdiv={this.sections[this.state.stage].sectionTextDiv}></Section>
                 <ThreeScene></ThreeScene>
