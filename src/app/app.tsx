@@ -106,7 +106,7 @@ export class App extends React.Component<IAppProps, any> {
             sectionTextDiv: (
                 <div>
                     <div className="section_std section_huge">
-                        <div className="section_text_left">
+                        <div className="section_text_left" style={{marginTop:"2vh"}}>
                             {"Vorgehensweise:\n"
                                 + "  -agile Entwicklung\n"
                                 + "\n"
@@ -433,7 +433,7 @@ export class App extends React.Component<IAppProps, any> {
             },
             sectionTextDiv: (
                 <div>
-                    <div className="section_std section_huge">
+                    <div className="section_std section_huge" style={{ marginTop: "2vh" }}>
                         <div className="section_text_left">
                             {"Die Cook-Torrance-BRDF"}
                         </div>
@@ -476,9 +476,36 @@ export class App extends React.Component<IAppProps, any> {
             },
             sectionTextDiv: (
                 <div>
-                    <div className="section_std section_xlarge">
+                    <div className="section_std section_xlarge" style={{ marginTop: "1vh" }}>
                         <div className="section_text_left">
-                            {"Image Based Lighting"}
+                            {"Image Based Lighting:\n"
+                                + "  -Vorberechnung der Beleuchtung\n"
+                                + "  -Ergebnisse in Umgebungs-Texturen\n"
+                                + "  -eine Textur für diffuses Licht\n"
+                            }
+                        </div>
+                        <div className="ct_flex">
+                            <div className="background_image" style={{
+                                width: "40vw", height: "20vh",
+                                backgroundImage: `url("${"./assets/images/ibl_irradiance.png"}")`
+                            }}>
+                            </div>
+                        </div>
+                        <div className="section_text_left">
+                            {"  -mehrere Texturen für Reflektionen bei\n"
+                                + "   unterschiedlich rauer Oberfläche\n"
+                            }
+                        </div>
+                        <div className="ct_flex">
+                            <div className="background_image" style={{
+                                width: "40vw", height: "20vh",
+                                backgroundImage: `url("${"./assets/images/ibl_prefilter_map.png"}")`
+                            }}>
+                            </div>
+                        </div>
+                        <div className="section_text_left">
+                            {"  - High Dynamic Range Images (HDR-Bilder)\n"
+                            }
                         </div>
                     </div>
                 </div>
@@ -486,6 +513,161 @@ export class App extends React.Component<IAppProps, any> {
             footProps: {
                 onClick: () => console.log(this.state.stage),
                 stage: 4
+            }
+        },
+        {
+            headerProps: {
+                onClick: () => this.increaseStage(),
+                section: "Implementierung - IBL",
+            },
+            sectionTextDiv: (
+                <div>
+                    <div className="section_std section_xlarge" style={{ fontSize: "125%", marginTop: "1vh" }}>
+                        <div className="section_text_left">
+                            {"Ein Experiment:\n"
+                                + "Eine Tonwertkorrektur auf einen geringeren Farbereich erzeugt eine Stauchung\n"
+                                + "des Farbraumes. Dadurch sind keine extrem hohen Farbwerte mehr vorhanden.\n"
+                                + "Dies ermöglicht die vorhandenen Werte mit geringerer Bittiefe darzustellen und\n"
+                                + "zu speichern. Die Umgebung wird im JPG Format abgelegt.\n"
+                                + "Der Shader rechnet Farben wieder auf den ursprünglichen Umfang hoch.\n"
+                                + "\n"
+                            }
+                            <div className="ct_flex">
+                                <div className="background_image" style={{
+                                    width: "40vw", height: "20vh",
+                                    backgroundImage: `url("${"./assets/images/arches_ldr_orig.jpg"}")`
+                                }}>
+                                </div>
+                            </div>
+                            <div className="section_text_left">
+                                {"Original Bild der Umgebung\n"}
+                            </div>
+                            <div className="ct_flex">
+                                <div className="background_image" style={{
+                                    width: "40vw", height: "20vh",
+                                    backgroundImage: `url("${"./assets/images/arches_FAKE_HDR.jpg"}")`
+                                }}>
+                                </div>
+                            </div>
+                            <div className="section_text_left">
+                                {"Bild der Umgebung im gestauchtem Farbraum\n"}
+                            </div>
+                            <div className="section_text_left">
+                                {"\nFarbnuancen gehen verloren. Oft zu stark sichtbare Übergänge."}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ),
+            footProps: {
+                onClick: () => console.log(this.state.stage),
+                stage: 4
+            }
+        },
+        {
+            headerProps: {
+                onClick: () => this.increaseStage(),
+                section: "Implementierung - Klarlack",
+            },
+            sectionTextDiv: (
+                <div>
+                    <div className="section_std section_huge">
+                        <div className="section_text_left">
+                            {"\n"
+                                + "Klarlack:\n"
+                                + "  -Transparente Lackschicht über der Farbe\n"
+                                + "  -Spiegelung der Umgebung\n"
+                                + "  -Erneute Berechnung mit der\n"
+                                + "   Cook-Torrance-Funktion\n"
+                                + "  -Addition des Ergebnisses auf den bisherigen\n"
+                                + "   Farbvektor\n"
+                                + "  -Ausgabe der Werte zwischen 0 und 1\n"
+                                + "\n"
+                            }
+                        </div>
+                    </div>
+                </div>
+            ),
+            footProps: {
+                onClick: () => console.log(this.state.stage),
+                stage: 4
+            }
+        },
+        {
+            headerProps: {
+                onClick: () => this.increaseStage(),
+                section: "Implementierung - Effektlacke",
+            },
+            sectionTextDiv: (
+                <div style={{ width: "50vw" }}>
+                    <div className="section_std section_xlarge">
+                        <div style={{ display: "flex", marginTop: "2vh" }}>
+                            <div className="section_text_left" style={{ width: "33vw" }}>
+                                {"\n"
+                                    + "Flakes:\n"
+                                    + "  -Spiegelnde Metallplättchen im Lack\n"
+                                    + "  -Darstellung mit Noise Texturen\n"
+                                    + "  -Prozedural Erzeugt\n"
+                                    + "\n"
+                                }
+                            </div>
+                            <div className="background_image" style={{
+                                width: "175px", marginTop: "6%",
+                                backgroundImage: `url("${"./assets/images/flakes.PNG"}")`
+                            }}>
+                            </div>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                            <div className="section_text_left" style={{ width: "33vw" }}>
+                                {"Mehrfarbigkeit:\n"
+                                    + "  -Blenden zwischen zwei Vektoren\n"
+                                    + "  -Abhängig vom Blickwinkel\n"
+                                    + "  -Errechnung mit Hilfe des\n"
+                                    + "   Skalarprodukts\n"
+                                    + "\n"
+                                }
+                            </div>
+                            <div className="background_image" style={{
+                                width: "180px", marginTop: "2%",
+                                backgroundImage: `url("${"./assets/images/twocolors.PNG"}")`
+                            }}>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ),
+            footProps: {
+                onClick: () => console.log(this.state.stage),
+                stage: 4
+            }
+        },
+        {
+            headerProps: {
+                onClick: () => this.increaseStage(),
+                section: "Auswertung - Fazit",
+            },
+            sectionTextDiv: (
+                <div>
+                    <div className="section_std section_huge">
+                        <div className="section_text_left">
+                            {"Abschließende Betrachtung:\n"
+                                + "  -Test Experimenteller Verfahren\n"
+                                + "  -Basis zukünftiger Shader Entwicklungen\n"
+                                + "\n"
+                                + "Ausblick:\n"
+                                + "  -IBL Bildformate und Kompressions-\n"
+                                + "   verfahren\n"
+                                + "  -Flakes mit Noise Texturen und\n"
+                                + "   triplanarem Mapping\n"
+                                + "  -Mehrfarbigkeit Optimierungen\n"
+                            }
+                        </div>
+                    </div>
+                </div>
+            ),
+            footProps: {
+                onClick: () => console.log(this.state.stage),
+                stage: 5
             }
         }
     ];
