@@ -36,6 +36,8 @@ export class Skybox {
 
             new (THREE as any).HDRCubeTextureLoader()
                 .load(THREE.UnsignedByteType, hdrUrls, (texture) => {
+                    texture.minFilter = THREE.LinearFilter;
+                    texture.magFilter = THREE.LinearFilter;
                     const uniforms: any = { envMap: { value: texture }, toneMappingExposure: { value: this._toneMappingExposure } };
                     Utils.instance.loadShaderPair(equirectToCubeVert, equirectToCubeFrag).then((shader) => {
                         let geometry: THREE.BoxBufferGeometry = new THREE.BoxBufferGeometry(1024, 1024, 1024);
@@ -45,7 +47,6 @@ export class Skybox {
                             fragmentShader: shader.frag
                         });
                         material.side = THREE.BackSide;
-                        console.log(material);
                         this._skybox = new THREE.Mesh(geometry, material);
                         resolve(this._skybox);
                     });

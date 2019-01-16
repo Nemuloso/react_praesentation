@@ -83,8 +83,6 @@ export class App extends React.Component<IAppProps, any> {
                                 + "\n"
                                 + "Neues Framework three.js - Anpassungen und Erweiterung\n"
                                 + "\n"
-                                + "Programm zur Darstellung von Oberflächen - Shader\n"
-                                + "\n"
                                 + "Einleitung - Vorstellung\n"
                                 + "Ein neues Material - Planung\n"
                                 + "Vorbereitung - Begriffserklärungen\n"
@@ -106,7 +104,7 @@ export class App extends React.Component<IAppProps, any> {
             sectionTextDiv: (
                 <div>
                     <div className="section_std section_huge">
-                        <div className="section_text_left" style={{marginTop:"2vh"}}>
+                        <div className="section_text_left" style={{ marginTop: "2vh" }}>
                             {"Vorgehensweise:\n"
                                 + "  -agile Entwicklung\n"
                                 + "\n"
@@ -669,6 +667,25 @@ export class App extends React.Component<IAppProps, any> {
                 onClick: () => console.log(this.state.stage),
                 stage: 5
             }
+        },
+        {
+            headerProps: {
+                onClick: () => this.increaseStage(),
+                section: "Vielen Dank!",
+            },
+            sectionTextDiv: (
+                <div>
+                    <div className="section_std section_huge">
+                        <div className="section_text_left" style={{fontSize:"200%", textAlign:"center", margin:"20vh 0 0 5vw"}}>
+                            {"Danke für Ihre\nAufmerksamkeit!\n"}
+                        </div>
+                    </div>
+                </div>
+            ),
+            footProps: {
+                onClick: () => console.log(this.state.stage),
+                stage: 5
+            }
         }
     ];
 
@@ -677,6 +694,29 @@ export class App extends React.Component<IAppProps, any> {
         this.state = {
             stage: 0
         };
+        this.keyPressFunction = this.keyPressFunction.bind(this);
+    }
+
+    private keyPressFunction(event: KeyboardEvent): void {
+        switch (event.keyCode) {
+            case 39:
+                this.increaseStage();
+                break;
+            case 37:
+                this.decreaseStage();
+                break;
+            default:
+                console.log(event.keyCode);
+        }
+        event.stopPropagation();
+    }
+
+    componentDidMount(): void {
+        document.addEventListener("keydown", this.keyPressFunction, false);
+    }
+
+    componentWillUnmount(): void {
+        document.removeEventListener("keydown", this.keyPressFunction, false);
     }
 
     private increaseStage(): void {
@@ -685,6 +725,19 @@ export class App extends React.Component<IAppProps, any> {
         let newStage: number = state.stage + 1;
         if (newStage === this.sections.length) {
             newStage = 0;
+        }
+
+        this.setState({
+            stage: newStage
+        });
+    }
+
+    private decreaseStage(): void {
+        let state: any = this.state;
+
+        let newStage: number = state.stage - 1;
+        if (newStage === -1) {
+            newStage = this.sections.length - 1;
         }
 
         this.setState({

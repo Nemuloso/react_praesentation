@@ -9,7 +9,11 @@ require("../../extern/pmrem/PMREMGenerator")(THREE);
 require("../../extern/pmrem/PMREMCubeUVPacker")(THREE);
 require("../../extern/OrbitControls")(THREE);
 
-export type BackgroundInitializer = { envPathName: string; irradiancePathName: string; };
+export type BackgroundInitializer = { toneMappingExposure: number; envPathName: string; irradiancePathName: string; };
+
+interface IThreeSceneProps {
+    toneMappingExposure: number;
+}
 
 export class ThreeScene extends React.Component {
 
@@ -27,35 +31,35 @@ export class ThreeScene extends React.Component {
 
     private backgrounds: BackgroundInitializer[] = [
         {
-            envPathName: "./assets/textures/sunA/env/environment_04-18_Sun_A_",
+            toneMappingExposure:  1.2, envPathName: "./assets/textures/sunA/env/environment_04-18_Sun_A_",
             irradiancePathName: "./assets/textures/sunA/irradiance/irradiance_04-18_Sun_A_"
         },
         {
-            envPathName: "./assets/textures/nightC/env/environment_04-21_Night_C_",
+            toneMappingExposure:  4.0, envPathName: "./assets/textures/nightC/env/environment_04-21_Night_C_",
             irradiancePathName: "./assets/textures/nightC/irradiance/irradiance_04-21_Night_C_"
         },
         {
-            envPathName: "./assets/textures/swissA/env/environment_08-21_Swiss_A_",
+            toneMappingExposure:  1.0, envPathName: "./assets/textures/swissA/env/environment_08-21_Swiss_A_",
             irradiancePathName: "./assets/textures/swissA/irradiance/irradiance_08-21_Swiss_A_"
         },
         {
-            envPathName: "./assets/textures/forestA/env/environment_10-30_Forest_A_",
+            toneMappingExposure:  3.0, envPathName: "./assets/textures/forestA/env/environment_10-30_Forest_A_",
             irradiancePathName: "./assets/textures/forestA/irradiance/irradiance_10-30_Forest_A_"
         },
         {
-            envPathName: "./assets/textures/arches/env/environment_arches_",
+            toneMappingExposure:  1.0, envPathName: "./assets/textures/arches/env/environment_arches_",
             irradiancePathName: "./assets/textures/arches/irradiance/irradiance_arches_"
         },
         {
-            envPathName: "./assets/textures/nightscene/env/environment_test_equirect_",
+            toneMappingExposure:  5.0, envPathName: "./assets/textures/nightscene/env/environment_test_equirect_",
             irradiancePathName: "./assets/textures/nightscene/irradiance/irradiance_test_equirect_"
         },
         {
-            envPathName: "./assets/textures/park/env/environment_05-20_Park_F_",
+            toneMappingExposure:  1.8, envPathName: "./assets/textures/park/env/environment_05-20_Park_F_",
             irradiancePathName: "./assets/textures/park/irradiance/irradiance_05-20_Park_F_"
         },
         {
-            envPathName: "./assets/textures/swissD/env/environment_08-21_Swiss_D_",
+            toneMappingExposure:  1.2, envPathName: "./assets/textures/swissD/env/environment_08-21_Swiss_D_",
             irradiancePathName: "./assets/textures/swissD/irradiance/irradiance_08-21_Swiss_D_"
         }
     ];
@@ -107,7 +111,7 @@ export class ThreeScene extends React.Component {
 
     private loadsomething(): Promise<any> {
         this.skybox = new Skybox();
-        this.skybox.toneMappingExposure = 1.0;
+        this.skybox.toneMappingExposure = this.backgrounds[0].toneMappingExposure;
         this.skybox.loadSkybox(this.backgrounds[0]).then((skybox) => { this.scene.add(skybox); });
 
         return new Promise((resolve) => {
@@ -123,6 +127,7 @@ export class ThreeScene extends React.Component {
                     .load(THREE.UnsignedByteType, urls, (irMap) => {
                         let geometry: any = new THREE.SphereBufferGeometry(0.5, 64, 64);
                         let material: any = new CarpaintMaterial(tex, irMap);
+                        (material as any).uniforms.toneMappingExposure.value = this.backgrounds[0].toneMappingExposure;
                         this.materialList.push(material);
                         let mesh: any = new THREE.Mesh(geometry, material);
                         this.mesh = mesh;
@@ -152,6 +157,7 @@ export class ThreeScene extends React.Component {
                     new (THREE as any).HDRCubeTextureLoader()
                         .load(THREE.UnsignedByteType, urls, (irMap) => {
                             let material: any = new CarpaintMaterial(tex, irMap);
+                            (material as any).uniforms.toneMappingExposure.value = background.toneMappingExposure;
                             this.materialList.push(material);
                             resolve();
                             console.log("Irradiancemap loaded!");
@@ -231,6 +237,7 @@ export class ThreeScene extends React.Component {
         this.mesh.material = this.materialList[i];
         this.mesh.material.needsUpdate = true;
         this.skybox.texture = (this.mesh.material as any).uniforms.envMap;
+        this.skybox.toneMappingExposure = (this.mesh.material as any).uniforms.toneMappingExposure.value;
         setTimeout(() => { this.alternateEnvironments(i+1); }, 30000);
     }
 
