@@ -78,16 +78,17 @@ export class App extends React.Component<IAppProps, any> {
                 <div>
                     <div className="section_std section_xlarge">
                         <div className="section_text_left">
-                            {"\n"
-                                + "Worum es geht:\n"
-                                + "\n"
+                            {"\n\n"
                                 + "Neues Framework three.js - Anpassungen und Erweiterung\n"
                                 + "\n"
-                                + "Einleitung - Vorstellung\n"
-                                + "Ein neues Material - Planung\n"
-                                + "Vorbereitung - Begriffserklärungen\n"
-                                + "Implementierung - Details und Beispiele\n"
-                                + "Ergebnis - Fazit\n"}
+                                + "\n"
+                                + "Der Vortrag:\n"
+                                + "\n"
+                                + "  Einleitung - Vorstellung\n"
+                                + "  Ein neues Material - Planung\n"
+                                + "  Vorbereitung - Begriffserklärungen\n"
+                                + "  Implementierung - Details und Beispiele\n"
+                                + "  Ergebnis - Fazit\n"}
                         </div>
                     </div>
                 </div>,
@@ -110,6 +111,7 @@ export class App extends React.Component<IAppProps, any> {
                                 + "\n"
                                 + "Begründung:\n"
                                 + "  -kleine Projekte\n"
+                                + "  -Flexibilität\n"
                                 + "  -keine klassische Validierung\n"
                                 + "  -individuelle Anforderungen durch die Szene\n"
                                 + "  -visuelle Darstellung\n"
@@ -131,20 +133,15 @@ export class App extends React.Component<IAppProps, any> {
             },
             sectionTextDiv: (
                 <div>
-                    <div className="section_std section_xlarge">
+                    <div className="section_std section_huge">
                         <div className="section_text_left">
-                            {"Projektabgrenzung:\n"
-                                + "  -Das Fragment-Shader-Programm\n"
-                                + "\n"
-                                + "Abweichungen vom Projektantrag:\n"
-                                + "  -Vorhandener Shader mit Basis Funktionen\n"
-                                + "\n"
-                                + "Projektphasen:\n"
+                            {"\n"
+                                + "Implementierungsaufgaben:\n"
                                 + "  -Anpassungen am Basis Shader\n"
                                 + "  -Clear Coat\n"
                                 + "  -Flakes\n"
-                                + "  -IBL: Diskussion, Implementierung und Testen eines\n"
-                                + "   experimentellen Ansatzes\n"
+                                + "  -IBL: Diskussion, Implementierung und\n"
+                                + "   Testen eines experimentellen Ansatzes\n"
                                 + "  -Zweifarbigkeit\n"
                             }
                         </div>
@@ -306,17 +303,17 @@ export class App extends React.Component<IAppProps, any> {
                     <div className="section_std section_xlarge">
                         <div className="section_text_left">
                             {"Shader:\n"
-                                + "  -Ausführung auf der GPU\n"
                                 + "  -mindestens zwei Programme\n"
-                                + "  -Vertex-Shader für die Geometrie\n"
+                                + "  -Ausführung auf der GPU\n"
+                                + "  -kompiliert zur Laufzeit\n"
+                                + "  -Vertex-Shader für die \"Geometrie\"\n"
                                 + "  -Fragment-Shader für \"Farben\"\n"
                                 + "\n"
                                 + "GLSL (OpenGL Shading Language):\n"
                                 + "  -Sprach-Spezifikation der Khronos Group\n"
                                 + "  -C ähnlich\n"
                                 + "  -hoch optimiert\n"
-                                + "  -kompiliert zur Laufzeit\n"
-                                + "  -Attribute, Uniform, Varying\n"
+                                + "  -Attribute, Uniform, Varying, Local\n"
                                 + "  -int, float, vecX, matX, sampler (Texturen)"
                             }
                         </div>
@@ -413,7 +410,7 @@ export class App extends React.Component<IAppProps, any> {
                         </div>
                         <div className="section_text_left">
                             {"      Spiegelung (reflected specular light)\n"
-                                + "      Absorbtion  (refracted diffuse light)\n"
+                                + "      Absorbtion (refracted diffuse light)\n"
                             }
                         </div>
                     </div>
@@ -520,13 +517,11 @@ export class App extends React.Component<IAppProps, any> {
             },
             sectionTextDiv: (
                 <div>
-                    <div className="section_std section_xlarge" style={{ fontSize: "125%", marginTop: "1vh" }}>
+                    <div className="section_std section_xlarge" style={{ fontSize: "135%", marginTop: "1vh" }}>
                         <div className="section_text_left">
                             {"Ein Experiment:\n"
                                 + "Eine Tonwertkorrektur auf einen geringeren Farbereich erzeugt eine Stauchung\n"
-                                + "des Farbraumes. Dadurch sind keine extrem hohen Farbwerte mehr vorhanden.\n"
-                                + "Dies ermöglicht die vorhandenen Werte mit geringerer Bittiefe darzustellen und\n"
-                                + "zu speichern. Die Umgebung wird im JPG Format abgelegt.\n"
+                                + "des Farbraumes. Die Umgebung wird im JPG Format gespeichert.\n"
                                 + "Der Shader rechnet Farben wieder auf den ursprünglichen Umfang hoch.\n"
                                 + "\n"
                             }
@@ -537,7 +532,7 @@ export class App extends React.Component<IAppProps, any> {
                                 }}>
                                 </div>
                             </div>
-                            <div className="section_text_left">
+                            <div className="section_text_left" style={{textAlign: "center", fontSize: "90%"}}>
                                 {"Original Bild der Umgebung\n"}
                             </div>
                             <div className="ct_flex">
@@ -547,7 +542,7 @@ export class App extends React.Component<IAppProps, any> {
                                 }}>
                                 </div>
                             </div>
-                            <div className="section_text_left">
+                            <div className="section_text_left" style={{textAlign: "center", fontSize: "90%"}}>
                                 {"Bild der Umgebung im gestauchtem Farbraum\n"}
                             </div>
                             <div className="section_text_left">
@@ -649,7 +644,7 @@ export class App extends React.Component<IAppProps, any> {
                     <div className="section_std section_huge">
                         <div className="section_text_left">
                             {"Abschließende Betrachtung:\n"
-                                + "  -Test Experimenteller Verfahren\n"
+                                + "  -Test experimenteller Verfahren\n"
                                 + "  -Basis zukünftiger Shader Entwicklungen\n"
                                 + "\n"
                                 + "Ausblick:\n"
